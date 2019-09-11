@@ -1,0 +1,35 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
+      - image: circleci/python:3.6.1
+      
+    steps:
+      - checkout
+
+      - run:
+          name: Install Dependencies
+          command: |
+            pip install -r requirements.txt
+
+      - run:
+          name: Setup testing environment
+          command: |
+            pip install -r test-requirements.txt
+
+      # run tests!
+      - run:
+          name: Run Tests
+          command: |
+            $HOME/.local/bin/coverage run -m pytest
+            $HOME/.local/bin/coverage report
+            $HOME/.local/bin/coverage html  # open htmlcov/index.html in a browser
+
+      - store_artifacts:
+          path: htmlcov 
