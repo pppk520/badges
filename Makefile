@@ -7,6 +7,8 @@ TAG = 'develop'
 
 GUEST_PATH = '/tmp/$(REPO)'
 
+CMD = 'cd $(GUEST_PATH) && /bin/bash'
+
 build: Dockerfile
 	docker build \
 	  -t $(REPO):$(TAG) -f Dockerfile .
@@ -14,5 +16,5 @@ build: Dockerfile
 run:
 	docker run --rm \
 	  -v $(HOST_PATH):$(GUEST_PATH) \
-	  $(DOCKER_OPTIONS) -it $(REPO):$(TAG) /bin/bash -c $(CMD_DEV)
+	  $(DOCKER_OPTIONS) -it $(REPO):$(TAG) /bin/bash -c $(CMD)
 
